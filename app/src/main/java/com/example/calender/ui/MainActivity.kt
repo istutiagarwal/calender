@@ -8,11 +8,8 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import android.view.MotionEvent
 import android.view.View
-import android.widget.DatePicker
 import android.widget.TextView
-import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
@@ -20,18 +17,18 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.calender.R
-import com.example.calender.source.CalenderRepository
 import com.example.calender.ui.CalendarAdapter.OnItemListener
 import com.example.calender.util.CalendarUtils.daysInMonthArray
 import com.example.calender.util.CalendarUtils.monthYearFromDate
 import com.example.calender.util.CalendarUtils.selectedDate
-import com.example.calender.util.CalenderViewModelFactory
 import com.example.calender.util.SharedPref
 import com.example.calender.viewModel.CalenderViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import java.time.LocalDate
 import java.util.Calendar
 
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity(), OnItemListener {
     private lateinit var monthYearText: TextView
     private lateinit var viewModel: CalenderViewModel
@@ -65,10 +62,8 @@ class MainActivity : AppCompatActivity(), OnItemListener {
     }
 
     private fun getViewModel(){
-        val repository = CalenderRepository()
         viewModel = ViewModelProvider(
-            this,
-            CalenderViewModelFactory(repository)
+            this
         )[CalenderViewModel::class.java]
     }
 

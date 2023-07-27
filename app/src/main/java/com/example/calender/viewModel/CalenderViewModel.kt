@@ -13,13 +13,16 @@ import com.example.calender.source.CalenderRepository
 import com.example.calender.source.TaskModel
 import com.example.calender.source.TasksList
 import com.example.calender.util.CalendarUtils
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import retrofit2.Response
 import java.time.LocalDate
 import java.util.Calendar
+import javax.inject.Inject
 
-class CalenderViewModel(private val  repository: CalenderRepository) : ViewModel() {
+@HiltViewModel
+class CalenderViewModel @Inject constructor(private val  repository: CalenderRepository) : ViewModel() {
 
    private val _taskListLiveData : MutableLiveData<TasksList> = MutableLiveData()
     val taskListLiveData : LiveData<TasksList> = _taskListLiveData

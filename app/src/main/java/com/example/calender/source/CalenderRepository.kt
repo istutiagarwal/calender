@@ -1,17 +1,19 @@
 package com.example.calender.source
 
-class CalenderRepository() {
+import javax.inject.Inject
+
+class CalenderRepository@Inject constructor(private val apiService: ApiService) {
 
     suspend fun storeData(userId: Int, taskModel: TaskModel)  =
-        RetrofitHelper.api.storeData(StoreDataModel(
+      apiService.storeData(StoreDataModel(
             user_id = userId,
             task = taskModel
         ))
 
     suspend fun getListOfData(userId: Int) =
-        RetrofitHelper.api.getListOfData( GetEventList(user_id = userId))
+       apiService.getListOfData( GetEventList(user_id = userId))
 
     suspend fun deleteEvent(userId: Int , taskId : Int) =
-        RetrofitHelper.api.deleteEvent(DeleteModel(user_id =  userId , task_id = taskId))
+       apiService.deleteEvent(DeleteModel(user_id =  userId , task_id = taskId))
 
 }

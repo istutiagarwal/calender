@@ -10,16 +10,16 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.example.calender.R
-import com.example.calender.source.CalenderRepository
 import com.example.calender.util.CalendarUtils
 import com.example.calender.util.CalendarUtils.formattedDate
 import com.example.calender.util.CalendarUtils.formattedTime
-import com.example.calender.util.CalenderViewModelFactory
 import com.example.calender.util.Event
 import com.example.calender.viewModel.CalenderViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import java.time.LocalTime
 
 
+@AndroidEntryPoint
 class EventEditActivity : AppCompatActivity() {
     private var eventNameTitleET: EditText? = null
     private var eventNameDescriptionET: EditText? = null
@@ -41,10 +41,8 @@ class EventEditActivity : AppCompatActivity() {
     }
 
     private fun getViewModel(){
-        val repository = CalenderRepository()
         viewModel = ViewModelProvider(
-            this,
-            CalenderViewModelFactory(repository)
+            this
         )[CalenderViewModel::class.java]
     }
 
