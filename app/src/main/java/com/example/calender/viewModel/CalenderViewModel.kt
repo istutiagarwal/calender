@@ -1,10 +1,5 @@
 package com.example.calender.viewModel
 
-import android.app.AlertDialog
-import android.app.DatePickerDialog
-import android.os.Build
-import android.util.Log
-import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -12,13 +7,10 @@ import androidx.lifecycle.viewModelScope
 import com.example.calender.source.CalenderRepository
 import com.example.calender.source.TaskModel
 import com.example.calender.source.TasksList
-import com.example.calender.util.CalendarUtils
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import retrofit2.Response
-import java.time.LocalDate
-import java.util.Calendar
 import javax.inject.Inject
 
 @HiltViewModel
@@ -28,7 +20,6 @@ class CalenderViewModel @Inject constructor(private val  repository: CalenderRep
     val taskListLiveData : LiveData<TasksList> = _taskListLiveData
 
     fun storeData(userId : Int, title : String, description : String) {
-        Log.d("istuti", " store $userId")
         viewModelScope.launch(Dispatchers.IO) {
              repository.storeData(
                userId = userId,
@@ -38,7 +29,6 @@ class CalenderViewModel @Inject constructor(private val  repository: CalenderRep
     }
 
     fun getListOfData(userId : Int){
-        Log.d("istuti", " get $userId")
         viewModelScope.launch(Dispatchers.IO){
             val response = repository.getListOfData(
                 userId = userId,
@@ -63,6 +53,5 @@ class CalenderViewModel @Inject constructor(private val  repository: CalenderRep
                _taskListLiveData.postValue(it)
             }
         }
-
     }
 }

@@ -39,7 +39,7 @@ import java.util.Calendar
 class MainActivity : AppCompatActivity(), OnItemListener, GestureDetector.OnGestureListener {
     private lateinit var monthYearText: TextView
     private lateinit var viewModel: CalenderViewModel
-    private var calendarRecyclerView: RecyclerView? = null
+    private lateinit var calendarRecyclerView: RecyclerView
     private lateinit var eventListView: RecyclerView
     private  var userId : Int = -1
     private lateinit var datePickerDialog : DatePickerDialog
@@ -83,22 +83,19 @@ class MainActivity : AppCompatActivity(), OnItemListener, GestureDetector.OnGest
                     y2 = event.y
 
                 val valueX: Float= x2-x1
-                val valueY: Float = y2 -y1
 
                 if(abs(valueX) > MINIMUM_DISTANCE){
                     if(x2 > x1){
-                        selectedDate =selectedDate!!.plusMonths(1)
+                        selectedDate =selectedDate.plusMonths(1)
                         setMonthView()
                     }
                     else{
-                        selectedDate = selectedDate!!.minusMonths(1)
+                        selectedDate = selectedDate.minusMonths(1)
                         setMonthView()
                     }
                 }
             }
         }
-
-
         return super.onTouchEvent(event)
     }
 
@@ -108,7 +105,6 @@ class MainActivity : AppCompatActivity(), OnItemListener, GestureDetector.OnGest
             id = Math.random().toInt()
              sharedPref.saveUserId("user_id", id)
         }
-        Log.d("istuti", " main $id")
         return id
     }
 
@@ -130,18 +126,18 @@ class MainActivity : AppCompatActivity(), OnItemListener, GestureDetector.OnGest
         val daysInMonth: ArrayList<LocalDate?> = daysInMonthArray(selectedDate)
         val calendarAdapter = CalendarAdapter(daysInMonth , this@MainActivity)
         val layoutManager: RecyclerView.LayoutManager = GridLayoutManager(applicationContext, 7)
-        calendarRecyclerView!!.layoutManager = layoutManager
-        calendarRecyclerView!!.adapter = calendarAdapter
+        calendarRecyclerView.layoutManager = layoutManager
+        calendarRecyclerView.adapter = calendarAdapter
     }
     @RequiresApi(Build.VERSION_CODES.O)
     fun previousMonthAction(view: View?) {
-        selectedDate = selectedDate!!.minusMonths(1)
+        selectedDate = selectedDate.minusMonths(1)
         setMonthView()
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun nextMonthAction(view: View?) {
-        selectedDate =selectedDate!!.plusMonths(1)
+        selectedDate =selectedDate.plusMonths(1)
         setMonthView()
     }
 
@@ -157,7 +153,6 @@ class MainActivity : AppCompatActivity(), OnItemListener, GestureDetector.OnGest
         super.onResume()
         viewModel.getListOfData(userId)
         observeListData()
-        //onSwipe()
     }
 
     private fun observeListData(){
@@ -186,11 +181,11 @@ class MainActivity : AppCompatActivity(), OnItemListener, GestureDetector.OnGest
     private fun initDatePicker() {
         val dateSetListener =
             OnDateSetListener { datePicker, year, month, day ->
-                var month = month
-                month += 1
-                val date = makeDateString(month, year)
+                var mon = month
+                mon += 1
+                val date = makeDateString(mon, year)
                 monthYearText.text = date
-                selectedDate = LocalDate.of(year , month , day)
+                selectedDate = LocalDate.of(year , mon , day)
                 setMonthView()
             }
         val cal = Calendar.getInstance()
@@ -201,27 +196,27 @@ class MainActivity : AppCompatActivity(), OnItemListener, GestureDetector.OnGest
         datePickerDialog = DatePickerDialog(this, style, dateSetListener, year, month, day)
     }
 
-    private fun makeDateString( month: Int, year: Int): String? {
+    private fun makeDateString( month: Int, year: Int): String {
         return getMonthFormat(month)  + " " + year
     }
 
     private fun getMonthFormat(month: Int): String {
-        if (month == 1) return "JAN"
-        if (month == 2) return "FEB"
-        if (month == 3) return "MAR"
-        if (month == 4) return "APR"
-        if (month == 5) return "MAY"
-        if (month == 6) return "JUN"
-        if (month == 7) return "JUL"
-        if (month == 8) return "AUG"
-        if (month == 9) return "SEP"
-        if (month == 10) return "OCT"
-        if (month == 11) return "NOV"
-        return if (month == 12) "DEC" else "JAN"
-
-        //default should never happen
+        return when (month) {
+            1 -> "JAN"
+            2 -> "FEB"
+            3 -> "MAR"
+            4 -> "APR"
+            5 -> "MAY"
+            6 -> "JUN"
+            7 -> "JUL"
+            8 -> "AUG"
+            9 -> "SEP"
+            10 -> "OCT"
+            11 -> "NOV"
+            12 -> "DEC"
+            else -> "JAN"
+        }
     }
-
     fun openDatePicker(view: View?) {
         datePickerDialog.show()
     }
@@ -231,7 +226,6 @@ class MainActivity : AppCompatActivity(), OnItemListener, GestureDetector.OnGest
     }
 
     override fun onShowPress(e: MotionEvent) {
-        TODO("Not yet implemented")
     }
 
     override fun onSingleTapUp(e: MotionEvent): Boolean {
@@ -248,7 +242,6 @@ class MainActivity : AppCompatActivity(), OnItemListener, GestureDetector.OnGest
     }
 
     override fun onLongPress(e: MotionEvent) {
-        TODO("Not yet implemented")
     }
 
     override fun onFling(

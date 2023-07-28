@@ -8,7 +8,6 @@ import com.example.calender.R
 import com.example.calender.ui.CalendarAdapter.OnItemListener
 import java.time.LocalDate
 
-
 class CalendarViewHolder  constructor(
     itemView: View,
     onItemListener: OnItemListener,

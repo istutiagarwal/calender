@@ -9,7 +9,6 @@ class SharedPref(context: Context) {
 
    private val sharedPref = context.getSharedPreferences("pref" , Context.MODE_PRIVATE)
 
-
     fun saveUserId(key : String , value : Int){
         val prefsEditor: SharedPreferences.Editor = sharedPref.edit()
         prefsEditor.putInt(key , value)

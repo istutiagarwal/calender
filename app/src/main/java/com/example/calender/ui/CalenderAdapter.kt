@@ -12,8 +12,7 @@ import com.example.calender.R
 import com.example.calender.util.CalendarUtils
 import java.time.LocalDate
 
-
- class CalendarAdapter(
+class CalendarAdapter(
     private val days: ArrayList<LocalDate?>,
     private val onItemListener: OnItemListener
 ) :
@@ -22,8 +21,8 @@ import java.time.LocalDate
         val inflater = LayoutInflater.from(parent.context)
         val view: View = inflater.inflate(R.layout.calender_cell, parent, false)
         val layoutParams = view.layoutParams
-        if (days.size > 15) //month view
-            layoutParams.height = (parent.height * 0.166666666).toInt() else  // week view
+        if (days.size > 15)
+            layoutParams.height = (parent.height * 0.166666666).toInt() else
             layoutParams.height = parent.height
         return CalendarViewHolder(view, onItemListener, days)
     }

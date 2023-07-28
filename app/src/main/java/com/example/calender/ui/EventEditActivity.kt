@@ -21,10 +21,10 @@ import java.time.LocalTime
 
 @AndroidEntryPoint
 class EventEditActivity : AppCompatActivity() {
-    private var eventNameTitleET: EditText? = null
-    private var eventNameDescriptionET: EditText? = null
-    private var eventDateTV: TextView? = null
-    private var eventTimeTV: TextView? = null
+    private lateinit var eventNameTitleET: EditText
+    private lateinit var eventNameDescriptionET: EditText
+    private lateinit var eventDateTV: TextView
+    private lateinit var eventTimeTV: TextView
     private lateinit var viewModel: CalenderViewModel
     private  var userId : Int = -1
     private lateinit var time: LocalTime
@@ -36,8 +36,8 @@ class EventEditActivity : AppCompatActivity() {
         initWidgets()
         getViewModel()
         time = LocalTime.now()
-        eventDateTV!!.text = "Date: " + formattedDate(CalendarUtils.selectedDate!!)
-        eventTimeTV!!.text = "Time: " + formattedTime(time)
+        eventDateTV.text = "Date: " + formattedDate(CalendarUtils.selectedDate!!)
+        eventTimeTV.text = "Time: " + formattedTime(time)
     }
 
     private fun getViewModel(){
@@ -47,15 +47,15 @@ class EventEditActivity : AppCompatActivity() {
     }
 
     private fun initWidgets() {
-        eventNameTitleET = findViewById<EditText>(R.id.eventNameET)
-        eventDateTV = findViewById<TextView>(R.id.eventDateTV)
-        eventTimeTV = findViewById<TextView>(R.id.eventTimeTV)
+        eventNameTitleET = findViewById(R.id.eventNameET)
+        eventDateTV = findViewById(R.id.eventDateTV)
+        eventTimeTV = findViewById(R.id.eventTimeTV)
         eventNameDescriptionET = findViewById(R.id.eventDescriptionET)
     }
 
     fun saveEventAction(view: View?) {
-        val eventName = eventNameTitleET!!.text.toString()
-        val eventDescription = eventNameDescriptionET!!.text.toString()
+        val eventName = eventNameTitleET.text.toString()
+        val eventDescription = eventNameDescriptionET.text.toString()
         val newEvent = Event(eventName, CalendarUtils.selectedDate, time)
         viewModel.storeData(userId, eventName , eventDescription)
         Event.eventsList.add(newEvent)
