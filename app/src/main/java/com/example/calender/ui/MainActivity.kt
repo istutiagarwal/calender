@@ -7,13 +7,11 @@ import android.app.DatePickerDialog.OnDateSetListener
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.util.FloatProperty
 import android.util.Log
 import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.View
 import android.widget.TextView
-import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -66,6 +64,10 @@ class MainActivity : AppCompatActivity(), OnItemListener, GestureDetector.OnGest
         setMonthView()
         initDatePicker()
         gestureDetector = GestureDetector(this , this)
+        val divider = DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
+        ContextCompat.getDrawable(this, R.drawable.item_divider)
+            ?.let { divider.setDrawable(it) }
+        eventListView.addItemDecoration(divider)
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -164,11 +166,6 @@ class MainActivity : AppCompatActivity(), OnItemListener, GestureDetector.OnGest
             }
 
         }
-        val divider = DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
-        ContextCompat.getDrawable(this, R.drawable.item_divider)
-            ?.let { divider.setDrawable(it) }
-        eventListView.addItemDecoration(divider)
-
     }
 
     fun newEventAction(view: View?) {
@@ -218,7 +215,8 @@ class MainActivity : AppCompatActivity(), OnItemListener, GestureDetector.OnGest
         }
     }
     fun openDatePicker(view: View?) {
-        datePickerDialog.show()
+        if(!datePickerDialog.isShowing){
+        datePickerDialog.show()}
     }
 
     override fun onDown(e: MotionEvent): Boolean {
@@ -226,6 +224,7 @@ class MainActivity : AppCompatActivity(), OnItemListener, GestureDetector.OnGest
     }
 
     override fun onShowPress(e: MotionEvent) {
+        Log.d("Calender", "onShowPress")
     }
 
     override fun onSingleTapUp(e: MotionEvent): Boolean {
@@ -242,6 +241,7 @@ class MainActivity : AppCompatActivity(), OnItemListener, GestureDetector.OnGest
     }
 
     override fun onLongPress(e: MotionEvent) {
+        Log.d("Calender", "onLongPress")
     }
 
     override fun onFling(

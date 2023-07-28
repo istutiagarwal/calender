@@ -30,7 +30,11 @@ class CalendarAdapter(
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: CalendarViewHolder, position: Int) {
         val date = days[position]
-        holder.dayOfMonth.text = date?.dayOfMonth.toString()
+        if (days[position] == null) {
+            holder.dayOfMonth.text = " "
+        } else {
+            holder.dayOfMonth.text = date?.dayOfMonth.toString()
+        }
         if (date == CalendarUtils.selectedDate) holder.parentView.setBackgroundColor(Color.LTGRAY)
     }
 
